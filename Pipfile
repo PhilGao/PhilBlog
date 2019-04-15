@@ -1,0 +1,25 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+watchdog = "*"
+[packages]
+python-dotenv = "*"
+flask-sqlalchemy = "*"
+flask-mail = "*"
+sendgrid = "*"
+flask-migrate = "*"
+flask-caching = "*"
+flask-assets = "*"
+flask = "*"
+flask-debugtoolbar = "*"
+cssmin = "*"
+jsmin = "*"
+redis = "*"
+flask-dropzone = "*"
+flask-wtf = "*"
+flask-ckeditor = "*"
+[requires]
+python_version = "3.6"
