@@ -1,15 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+{% from 'macros.html' import static_file %}
 <head>
     {% block head %}
     <meta charset="UTF-8">
-    {%block scripts%}{%endblock scripts%}
-    {%block styles%}{%endblock styles%}
+    {%block scripts%}
+        {{static_file('js','js/jquery-3.4.0.min.js')}}
+        {{static_file('js','js/popper.min.js')}}
+        {{static_file('js','js/bootstrap.min.js')}}
+    {%endblock scripts%}
+    {%block styles%} {{static_file('css','css/bootstrap.min.css')}} {%endblock styles%}
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <title>{% block title %}base{%endblock title%}</title>
     {% endblock head%}
 </head>
 <body>
-{% block nav%}{% endblock nav%}
+{% block nav%}
+<nav class="navbar navbar-light bg-light py-4">
+    <div class="container justify-content-sm-around">
+        <a class="navbar-brand" href="{{url_for('index')}}">
+            <img src="{{url_for('static',filename='favicon.svg')}}" width="30" height="30"
+                 class="d-inline-block align-top" alt="">
+            CatchPity
+        </a>
+        <div class="navbar-expand-lg">
+            <ul class="navbar-nav">
+                <li class="nav-item active mr-2 " >
+                    <a class="nav-link" href="{{url_for('index')}}">
+                        <small>Home</small>
+                        </a>
+                </li>
+                <li class="nav-item active mr-2">
+                    <a class="nav-link" href="{{url_for('tag')}}">
+                        <small>Tag</small>
+                    </a>
+                </li>
+                <li class="nav-item active mr-2">
+                    <a class="nav-link" href="{{url_for('archive')}}">
+                        <small>Archive</small>
+                    </a>
+                </li>
+                <li class="nav-item active mr-2">
+                    <a class="nav-link" href="{{url_for('about')}}">
+                        <small>About</small>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock nav%}
 {% block content%}{% endblock content%}
 
 {% block footer %}

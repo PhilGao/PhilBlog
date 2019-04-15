@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}CatchPity{%endblock title%}
+{% block content%}
+<div class="container justify-content-center text-center py-5">
+    <div class="row">
+        <div class="col-8 offset-md-2">
+                <article class="text-left">
+                    <h3>Say it again</h3>
+                     <div class="small pl-1 text-left">
+                        <span>Publish on <time datetime="2019-04-15">2019-04-15</time></span>
+                    </div>
+                    <p>
+<a href="#" class="badge badge-primary">Primary</a>
+<a href="#" class="badge badge-secondary">Secondary</a>
+<a href="#" class="badge badge-success">Success</a>
+<a href="#" class="badge badge-danger">Danger</a>
+<a href="#" class="badge badge-warning">Warning</a>
+<a href="#" class="badge badge-info">Info</a>
+<a href="#" class="badge badge-light">Light</a>
+<a href="#" class="badge badge-dark">Dark</a>
+                        </p>
+                    <div>
+                    <p>Just some test words in it . please ignore this article
+                    Just some test words in it . please ignore this articleJust some test words in it . please ignore this articleJust some test words in it . please ignore this articleJust some test words in it . please ignore this articleJust some test words in it . please ignore this articleJust some test words in it . please ignore this article
+                    </p>
+                    </div>
+                    <code></code>
+                </article>
+        </div>
+    </div>
+</div>
 
-</body>
-</html>
+
+{%endblock content%}
