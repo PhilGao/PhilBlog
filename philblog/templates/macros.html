@@ -10,3 +10,21 @@
         <link rel="icon" href="{{ filename_or_url }}">
     {% endif %}
 {% endmacro %}
+
+<!--TODO: The first page would show only 2 pages including the first page , this function need rewrite -->
+{% macro pager(pagination,fragment)%}
+<nav aria-label="Page navigation">
+    <ul class="pagination text-dark">
+        <li class="page-item text-primary{% if not pagination.has_prev %} disabled {% endif %}">
+            <a class="page-link" href="{{url_for(request.endpoint,page = pagination.prev_num)}}">&lt;&lt;</a></li>
+        {% for pagenum in pagination.iter_pages(0,fragment,fragment+1,0)%}
+        {% if pagenum %}
+        <li class="page-item {%if pagenum == pagination.page %} active {% endif %}">
+            <a class="page-link" href="{{url_for(request.endpoint,page = pagenum)}}">{{pagenum}}</a></li>
+        {% endif %}
+        {% endfor %}
+        <li class="page-item {% if not pagination.has_next %} disabled {% endif %}">
+            <a class="page-link" href="{{url_for(request.endpoint,page = pagination.next_num)}}">&gt;&gt;</a></li>
+    </ul>
+</nav>
+{% endmacro %}

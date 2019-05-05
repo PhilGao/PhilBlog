@@ -1,25 +1,29 @@
+{% from 'macros.html' import pager %}
 {% extends 'base.html' %}
 {% block title %}CatchPity{%endblock%}
 {% block content%}
+{% if articles %}
+{% for article in articles %}
 <div class="container justify-content-center text-center py-5">
     <div class="row">
         <div class="col-8 offset-md-2">
             <section>
                 <article class="text-left">
-                    <h3><a href="{{url_for('blog')}}" class="text-dark text-capitalize">{{title}}</a></h3>
+                    <h3><a href="{{url_for('blog.blog',post_id = article.id)}}" class="text-dark text-capitalize">{{article.title}}</a>
+                    </h3>
                     <div class="small pl-1">
                         <span>Publish on</span>
-                        <time datetime="{{pubdate}}">{{pubdate}}</time>
+                        <time datetime="{{pubdate}}">{{article.createdate}}</time>
                     </div>
                     <div class="pt-2 pr-5">
                         <p>
-                            <a href="{{url_for('blog')}}">
+                            <a href="{{url_for('blog.blog',post_id = article.id)}}">
                                 <image class="img-thumbnail " src="{{url_for('static',filename = diagram )}}"/>
                             </a>
                         </p>
                     </div>
                     <div>
-                        <a href="{{url_for('blog')}}" class="text-dark small">
+                        <a href="{{url_for('blog.blog',post_id = article.id)}}" class="text-dark small">
                             <span>More&gt;&gt;</span>
                         </a>
                     </div>
@@ -27,7 +31,32 @@
             </section>
         </div>
     </div>
+
 </div>
-
-
+{% endfor %}
+{% else %}
+<div>
+    <p>There is no posts!</p>
+</div>
+{% endif %}
 {% endblock content%}
+{% block pager%}
+<div class="container">
+    <div class="row">
+        <div class="col-8 offset-md-2">
+            {{pager(pagination,1)}}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer class="text-center">
+    <small> &copy; 2019 <a href="http://flask.pocoo.org/" title="Powered By Flask">Powered By Flask</a> /
+        <a href="https://getbootstrap.com/" title="Theme By BootStrap">BootStrap</a> |
+        <a href="#" title="A Blog of PhilGao">CatchPity</a>
+
+    </small>
+</footer>
+
+{% endblock %}

@@ -1,16 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}CatchPity{%endblock title%}
 {% block content%}
+
 <div class="container justify-content-center text-center py-5">
+
     <div class="row">
         <div class="col-8 offset-md-2">
-            <article class="text-left">
-                <h3 class="text-capitalize">{{post.title}}</h3>
-                <div class="small pl-1 text-left">
-                    <span>Publish on <time datetime="2019-04-15">{{post.createdate}}</time></span>
-                </div>
-                <p>
-                    {%for category in post.categorys%}
+            <section>
+                <h3>
+                    {%for category in categorys%}
                     {%if category and category.id % 8 ==0 %}
                     <a href="{{url_for('blog.tagged',category_id=category.id)}}" class="badge badge-primary">{{category.category_name}}</a>
                     {%endif%}
@@ -36,13 +34,8 @@
                     <a href="{{url_for('blog.tagged',category_id=category.id)}}" class="badge badge-dark">{{category.category_name}}</a>
                     {%endif%}
                     {%endfor%}
-                </p>
-                <div>
-                    <p>{{post.content}}
-                    </p>
-                </div>
-                <code></code>
-            </article>
+                </h3>
+            </section>
         </div>
     </div>
 </div>
