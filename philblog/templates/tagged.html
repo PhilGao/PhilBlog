@@ -9,7 +9,7 @@
             <section>
                 <h2 class="">{{category.category_name}}</h2>
                 {%for article in articles %}
-                <a href="{{url_for('blog.blog',post_i d = article.id)}}" class="text-left">&bull; &nbsp;{{article.title}}</a><br>
+                <a href="{{url_for('blog.blog',post_id = article.id)}}" class="text-left font-italic text-dark">&bull; &nbsp;{{article.title}}</a><br>
                 {%endfor%}
             </section>
         </div>

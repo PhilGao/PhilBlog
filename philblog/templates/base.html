@@ -9,7 +9,10 @@
         {{static_file('js','js/popper.min.js')}}
         {{static_file('js','js/bootstrap.min.js')}}
     {%endblock scripts%}
-    {%block styles%} {{static_file('css','css/bootstrap.min.css')}} {%endblock styles%}
+    {%block styles%}
+        {{static_file('css','css/bootstrap.min.css')}}
+        {{static_file('css','css/catchpity.css')}}
+    {%endblock styles%}
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <title>{% block title %}base{%endblock title%}</title>
     {% endblock head%}
@@ -57,7 +60,15 @@
 {% endblock pager %}
 
 {% block footer %}
+<footer class="bottom text-center font-italic">
+    <div class="container">
+    <small> &copy; 2019 <a href="http://flask.pocoo.org/" title="Powered By Flask" class="text-dark">Powered By Flask</a> /
+        <a href="https://getbootstrap.com/" title="Theme By BootStrap" class="text-dark">BootStrap</a> |
+        <a href="#" title="A Blog of PhilGao" class="text-dark">CatchPity</a>
 
+    </small>
+    </div>
+</footer>
 {% endblock footer %}
 </body>
 
