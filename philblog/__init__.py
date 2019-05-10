@@ -1,14 +1,16 @@
 from flask import Flask
 from philblog.blueprints.blog import blog_dp
 from philblog.extentions import db
-from philblog.setting import Config
+from philblog.setting import config
 from philblog.models import Article, Comment
 import click
 
 
-def create_app():
+def create_app(config_name=None):
     app = Flask('CatchPity')
-    app.config.from_object(Config)
+    if config_name is None:
+        config_name = 'development'
+    app.config.from_object(config[config_name])
     register_extentions(app)
     register_blueprints(app)
     register_command(app)
