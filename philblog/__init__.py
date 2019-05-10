@@ -7,7 +7,10 @@ import click
 
 
 def create_app(config_name=None):
-    app = Flask('CatchPity')
+    # __name__ ---> module name,
+    # so app would point to philblog package ,
+    # and it would find the templates folder and render the template
+    app = Flask('philblog') #app = Flask(__name__) would be better
     if config_name is None:
         config_name = 'development'
     app.config.from_object(config[config_name])
