@@ -9,7 +9,10 @@
         {{static_file('js','js/popper.min.js')}}
         {{static_file('js','js/bootstrap.min.js')}}
     {%endblock scripts%}
-    {%block styles%} {{static_file('css','css/bootstrap.min.css')}} {%endblock styles%}
+    {%block styles%}
+        {{static_file('css','css/bootstrap.min.css')}}
+        {{static_file('css','css/catchpity.css')}}
+    {%endblock styles%}
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <title>{% block title %}base{%endblock title%}</title>
     {% endblock head%}
