@@ -1,5 +1,6 @@
 from flask import Flask
 from philblog.blueprints.blog import blog_dp
+from philblog.blueprints.admin import admin_bp
 from philblog.extentions import db
 from philblog.setting import config
 from philblog.models import Article, Comment
@@ -26,6 +27,7 @@ def register_extentions(app):
 
 def register_blueprints(app):
     app.register_blueprint(blog_dp)
+    app.register_blueprint(admin_bp)
 
 
 def register_command(app):
