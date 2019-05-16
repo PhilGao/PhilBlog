@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,render_template
 from philblog.blueprints.blog import blog_dp
 from philblog.blueprints.admin import admin_bp
 from philblog.extentions import db
@@ -18,6 +18,7 @@ def create_app(config_name=None):
     register_extentions(app)
     register_blueprints(app)
     register_command(app)
+    register_error(app)
     return app
 
 
@@ -28,6 +29,20 @@ def register_extentions(app):
 def register_blueprints(app):
     app.register_blueprint(blog_dp)
     app.register_blueprint(admin_bp)
+
+
+def register_error(app):
+    @app.errorhandler(404)
+    def error_404(error):
+        return render_template('/errors/404.html'), 404
+
+    @app.errorhandler(400)
+    def error_400(error):
+        return render_template('/errors/400.html'), 404
+
+    @app.errorhandler(500)
+    def error_500(error):
+        return render_template('/errors/500.html'), 404
 
 
 def register_command(app):

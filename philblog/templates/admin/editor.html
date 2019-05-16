@@ -1,10 +1,22 @@
 {% extends 'base.html' %}
 {% block content%}
-<form method ='POST'>
-    {{ form.csrf_token }}
-    {{ form.title.label}}{{ form.title}}
-    {{ form.category.label}}{{ form.category}}
-    {{ form.body.label}}{{ form.body}}
-    {{ form.submit}}
+<div class="container justify-content-left text-left py-5">
+    <div class="row">
+        <div class="col-8 offset-md-2">
+            <form method='POST'>
+                {{ form.csrf_token }}<br>
+                {{ form.title.label}}{{ form.title}}<br>
+                {{ form.category.label}}{{ form.category}}<br>
+                {{ form.body}}
+                {{ form.submit}}
+                {{ form.draft}}
+             </form>
+
+            <form id="uploadbanner" enctype="multipart/form-data" method="post" action="#">
+   <input id="fileupload" name="myfile" type="file" />
+   <input type="submit" value="submit" id="submit1" />
 </form>
+        </div>
+    </div>
+</div>
 {% endblock%}
