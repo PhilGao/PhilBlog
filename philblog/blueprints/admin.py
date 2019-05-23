@@ -4,6 +4,7 @@ from philblog.forms import EditorForm
 from philblog.extentions import db
 import os
 from datetime import datetime
+from philblog.util import render_upload_file
 from flask_ckeditor import upload_success,upload_fail
 
 admin_bp = Blueprint('admin',__name__)
@@ -19,6 +20,11 @@ def editor():
             flash(message)
             return redirect(url_for('admin.editor'))
         if form.submit.data and form.validate_on_submit():
+            show_window_file = request.files.get('show_window')
+            show_window_path = render_upload_file(show_window_file.filename,'show_window')
+            show_window_file.save(show_window_path)
+            show_window_url = url_for(get_show_window)
+            print(show_window_url)
             title = request.form.get('title')
             category_id = request.form.get('category')
             body = request.form.get('body')
@@ -43,3 +49,7 @@ def upload():
 @admin_bp.route('/getimage/<path:filename>',methods = ['GET'])
 def getimage(filename):
     return send_from_directory(os.path.join(current_app.root_path,'upload'),filename)
+
+@admin_bp.route('/getshowwindow/<path:filename>',methods = ['GET'])
+def get_show_window(filename):
+    return send_from_directory(os.path.join(current_app.static_path,'res','image',filename))
