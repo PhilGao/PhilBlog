@@ -5,13 +5,26 @@
         <div class="col-8 offset-md-2">
             <form method='POST'>
                 {{ form.csrf_token }}<br>
-                {{ form.title.label}}{{ form.title}}<br>
-                {{ form.category.label}}{{ form.category}}<br>
-                {{ form.body}}
-                {{ form.submit}}
-                {{ form.draft}}
-             </form>
+                <div class="form-group">
+                    {{ form.title.label}}{{ form.title(class_="form-control")}}
+                </div>
+                <div class="form-group">
+                    {{ form.category.label}}{{ form.category(class_="form-control")}}
+                </div>
+                <div class="form-group">
+                    {{ form.show_window.label}}{{ form.show_window}}
+                </div>
+                <div class="form-group">
+                    {{ form.body}}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class_="btn btn-success")}}{{ form.draft(class_="btn btn-danger")}}
+                </div>
+                <form>
+
+            </form>
         </div>
     </div>
+</div>
 </div>
 {% endblock%}

@@ -38,10 +38,10 @@
                     {%endfor%}
                 </p>
                 <div>
-                    <p>{{post.content}}
+                    <p>
+                    {{post.content|safe}}
                     </p>
                 </div>
-                <code></code>
             </article>
         </div>
     </div>

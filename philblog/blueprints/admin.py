@@ -1,8 +1,9 @@
-from flask import Blueprint,render_template,request,flash,current_app,url_for,send_from_directory
+from flask import Blueprint,render_template,request,flash,current_app,url_for,send_from_directory,redirect
 from philblog.models import Article,Category
 from philblog.forms import EditorForm
 from philblog.extentions import db
 import os
+from datetime import datetime
 from flask_ckeditor import upload_success,upload_fail
 
 admin_bp = Blueprint('admin',__name__)
@@ -13,16 +14,21 @@ def editor():
     form = EditorForm()
     if request.method == 'POST':
         if form.draft.data :
-            return render_template('admin/editor.html', form=form)
+            title = request.form.get('title')
+            message = 'drop the draft {}!'.format(title)
+            flash(message)
+            return redirect(url_for('admin.editor'))
         if form.submit.data and form.validate_on_submit():
             title = request.form.get('title')
             category_id = request.form.get('category')
             body = request.form.get('body')
             category = db.session.query(Category).filter(Category.id == category_id).first()
-            new_article = Article(title=title,content=body)
+            new_article = Article(title=title,content=body,createdate=datetime.now())
             new_article.categorys.append(category)
             db.session.add(new_article)
             db.session.commit()
+            flash('The article {} has successfully submitted!'.format(title))
+            return redirect(url_for('admin.editor'))
     return render_template('admin/editor.html',form = form)
 
 @admin_bp.route('/upload/',methods = ['GET','POST'])
