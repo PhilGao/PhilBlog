@@ -1,5 +1,6 @@
-from flask import Flask, render_template, redirect, Blueprint, url_for, request, current_app
+from flask import Flask, render_template, redirect, Blueprint, url_for, request, current_app,send_from_directory
 from philblog.extentions import db
+import os
 from philblog.models import Article, Category
 from sqlalchemy import distinct, func
 
@@ -15,7 +16,7 @@ def index(page):
     pagination = Article.query.order_by(Article.createdate.desc()).paginate(page, per_page=per_page)
     articles = pagination.items
     # articles = Article.query.order_by(Article.createdate.desc()).limit(10).all()
-    return render_template('index.html', articles=articles, pagination=pagination, diagram=r'res/image/today.png')
+    return render_template('index.html', articles=articles, pagination=pagination)
 
 
 @blog_dp.route('/tag', methods=['GET'])
@@ -52,3 +53,7 @@ def blog(post_id):
     id = post_id
     post = Article.query.get_or_404(id)
     return render_template('blog.html', post=post)
+
+@blog_dp.route('/getshowwindow/<filename>',methods = ['GET'])
+def get_show_window(filename):
+    return send_from_directory(os.path.join(current_app.static_path,'res','image',filename))

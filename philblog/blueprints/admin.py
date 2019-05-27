@@ -22,19 +22,19 @@ def editor():
         if form.submit.data and form.validate_on_submit():
             show_window_file = request.files.get('show_window')
             show_window_path = render_upload_file(show_window_file.filename,'show_window')
+            print(show_window_path)
             show_window_file.save(show_window_path)
-            show_window_url = url_for(get_show_window)
-            print(show_window_url)
             title = request.form.get('title')
             category_id = request.form.get('category')
             body = request.form.get('body')
             category = db.session.query(Category).filter(Category.id == category_id).first()
-            new_article = Article(title=title,content=body,createdate=datetime.now())
+            new_article = Article(title=title,content=body,createdate=datetime.now(),showwindow=show_window_file.filename)
             new_article.categorys.append(category)
             db.session.add(new_article)
             db.session.commit()
             flash('The article {} has successfully submitted!'.format(title))
             return redirect(url_for('admin.editor'))
+        print(form.errors)
     return render_template('admin/editor.html',form = form)
 
 @admin_bp.route('/upload/',methods = ['GET','POST'])
@@ -49,7 +49,3 @@ def upload():
 @admin_bp.route('/getimage/<path:filename>',methods = ['GET'])
 def getimage(filename):
     return send_from_directory(os.path.join(current_app.root_path,'upload'),filename)
-
-@admin_bp.route('/getshowwindow/<path:filename>',methods = ['GET'])
-def get_show_window(filename):
-    return send_from_directory(os.path.join(current_app.static_path,'res','image',filename))

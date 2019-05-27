@@ -9,7 +9,7 @@ from philblog.models import Category
 class EditorForm(FlaskForm):
     title = StringField('Title',validators=[data_required(),length(1,200)])
     category = SelectField('Category',coerce=int,default=1)
-    body = CKEditorField('body',validators=[data_required()])
+    body = CKEditorField('body')
     show_window = FileField('Show Windows...',validators=[FileRequired()])
     submit = SubmitField()
     draft = SubmitField('Draft')

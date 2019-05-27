@@ -11,6 +11,7 @@ class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author_id = db.Column(db.Integer, db.ForeignKey('author.id'))
     title = db.Column(db.String(255))
+    showwindow = db.Column(db.String(255))
     content = db.Column(db.Text)
     createdate = db.Column(db.DateTime)
     modifieddate = db.Column(db.DateTime)

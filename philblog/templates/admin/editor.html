@@ -3,7 +3,7 @@
 <div class="container justify-content-left text-left py-5">
     <div class="row">
         <div class="col-8 offset-md-2">
-            <form method='POST'>
+            <form method='POST' enctype="multipart/form-data">
                 {{ form.csrf_token }}<br>
                 <div class="form-group">
                     {{ form.title.label}}{{ form.title(class_="form-control")}}
