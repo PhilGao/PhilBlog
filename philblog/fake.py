@@ -43,6 +43,7 @@ def fake_article_category(count=50):
                           content=fake.text(2000),
                           createdate=fake.date_time_this_year(),
                           # TODO: should be the random id from min id to maxid
+                          showwindow = 'today.png',
                           author_id=random.randint(1, Author.query.count())
                           )
         for j in range(random.randint(0, categorycount)):

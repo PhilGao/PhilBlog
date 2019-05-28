@@ -53,7 +53,3 @@ def blog(post_id):
     id = post_id
     post = Article.query.get_or_404(id)
     return render_template('blog.html', post=post)
-
-@blog_dp.route('/getshowwindow/<filename>',methods = ['GET'])
-def get_show_window(filename):
-    return send_from_directory(os.path.join(current_app.static_path,'res','image',filename))
