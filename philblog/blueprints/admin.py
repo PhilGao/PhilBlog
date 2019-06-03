@@ -1,6 +1,6 @@
 from flask import Blueprint,render_template,request,flash,current_app,url_for,send_from_directory,redirect
 from philblog.models import Article,Category
-from philblog.forms import EditorForm
+from philblog.forms import EditorForm,LoginForm
 from philblog.extentions import db
 import os
 from datetime import datetime
@@ -10,7 +10,19 @@ from flask_ckeditor import upload_success,upload_fail
 admin_bp = Blueprint('admin',__name__)
 
 
-@admin_bp.route('/admin',methods=['GET','POST'])
+@admin_bp.route('/login',methods=['GET','POST'])
+def login():
+    form = LoginForm()
+    if request.method == 'POST':
+        if form.login.data:
+            #TODO: do validation here.
+            return
+    return render_template('admin/login.html',form = form)
+
+#TODO : article list => delete post ,new post,edit post
+
+
+@admin_bp.route('/editor',methods=['GET','POST'])
 def editor():
     form = EditorForm()
     if request.method == 'POST':
