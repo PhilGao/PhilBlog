@@ -19,10 +19,27 @@ def login():
             return
     return render_template('admin/login.html',form = form)
 
-#TODO : article list => delete post ,new post,edit post
 
+@admin_bp.route('/post/manage',methods = ['GET','POST'])
+def post_manage():
+    articles = db.session.query(Article.title,Article.id).all()
+    return render_template('admin/managepost.html',articles = articles)
 
-@admin_bp.route('/editor',methods=['GET','POST'])
+#todo : add edit logic here , for show_window should find other way
+@admin_bp.route('/post/<int:id>/edit',methods = ['GET'])
+def post_edit(id):
+    form = EditorForm()
+    article = db.session.query(Article).filter(Article.id==id).first()
+    form.title.data,form.body.data = article.title,article.content
+    return render_template('admin/editpost.html',form=form)
+
+#todo : add drop logic here.. delete this records
+@admin_bp.route('/post/<int:id>/drop',methods = ['POST'])
+def post_drop(id):
+    flash('DROP the post %d' %id)
+    return redirect('/post/manage')
+
+@admin_bp.route('/post/new',methods=['GET','POST'])
 def editor():
     form = EditorForm()
     if request.method == 'POST':
@@ -47,7 +64,7 @@ def editor():
             flash('The article {} has successfully submitted!'.format(title))
             return redirect(url_for('admin.editor'))
         print(form.errors)
-    return render_template('admin/editor.html',form = form)
+    return render_template('admin/newpost.html',form = form)
 
 @admin_bp.route('/upload/',methods = ['GET','POST'])
 def upload():
