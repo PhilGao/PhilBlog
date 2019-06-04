@@ -46,6 +46,7 @@ def post_edit(id):
                 article.categorys.append(category)
                 db.session.commit()
                 flash('modify the article sucessfully %s' %article.title)
+                return redirect(url_for('admin.post_manage'))
     else:
         flash('No such article')
         abort(404)
@@ -64,7 +65,7 @@ def post_drop(id):
 
 # todo : change the route name to new post may be better, save file logic should change to another way
 @admin_bp.route('/post/new',methods=['GET','POST'])
-def editor():
+def post_new():
     form = EditorForm()
     if request.method == 'POST':
         if form.draft.data :
@@ -87,7 +88,7 @@ def editor():
             db.session.add(new_article)
             db.session.commit()
             flash('The article {} has successfully submitted!'.format(title))
-            return redirect(url_for('admin.editor'))
+            return redirect(url_for('admin.post_manage'))
         print(form.errors)
     return render_template('admin/newpost.html',form = form)
 
