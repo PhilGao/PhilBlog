@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template,request,flash,current_app,url_for,send_from_directory,redirect
+from flask import Blueprint,render_template,request,flash,current_app,url_for,send_from_directory,redirect,abort
 from philblog.models import Article,Category
 from philblog.forms import EditorForm,LoginForm
 from philblog.extentions import db
@@ -25,20 +25,44 @@ def post_manage():
     articles = db.session.query(Article.title,Article.id).all()
     return render_template('admin/managepost.html',articles = articles)
 
-#todo : add edit logic here , for show_window should find other way
-@admin_bp.route('/post/<int:id>/edit',methods = ['GET'])
+#todo : category should be the mutiple-checkbox.. remove the show window required
+@admin_bp.route('/post/<int:id>/edit',methods = ['GET','POST'])
 def post_edit(id):
     form = EditorForm()
     article = db.session.query(Article).filter(Article.id==id).first()
-    form.title.data,form.body.data = article.title,article.content
+    if article:
+        form.title.data,form.body.data = article.title,article.content
+        category_old_list = article.categorys
+        if request.method == 'POST':
+            if form.submit.data and form.validate_on_submit():
+                title = request.form.get('title')
+                category_id = request.form.get('category')
+                body = request.form.get('body')
+                category = db.session.query(Category).filter(Category.id == category_id).first()
+                for category_old in category_old_list:
+                    article.categorys.remove(category_old)
+                article.title = title
+                article.content = body
+                article.categorys.append(category)
+                db.session.commit()
+                flash('modify the article sucessfully %s' %article.title)
+    else:
+        flash('No such article')
+        abort(404)
     return render_template('admin/editpost.html',form=form)
 
-#todo : add drop logic here.. delete this records
 @admin_bp.route('/post/<int:id>/drop',methods = ['POST'])
 def post_drop(id):
-    flash('DROP the post %d' %id)
+    try:
+        article = db.session.query(Article).filter(Article.id == id).first()
+        db.session.delete(article)
+        db.session.commit()
+        flash('drop the article %s successfully !' %article.title)
+    except Exception as e:
+        flash('drop the article %s with error %s ' %(article.title,e))
     return redirect('/post/manage')
 
+# todo : change the route name to new post may be better, save file logic should change to another way
 @admin_bp.route('/post/new',methods=['GET','POST'])
 def editor():
     form = EditorForm()
@@ -50,9 +74,10 @@ def editor():
             return redirect(url_for('admin.editor'))
         if form.submit.data and form.validate_on_submit():
             show_window_file = request.files.get('show_window')
-            show_window_path = render_upload_file(show_window_file.filename,'show_window')
-            print(show_window_path)
-            show_window_file.save(show_window_path)
+            if show_window_file:
+                show_window_path = render_upload_file(show_window_file.filename,'show_window')
+                print(show_window_path)
+                show_window_file.save(show_window_path)
             title = request.form.get('title')
             category_id = request.form.get('category')
             body = request.form.get('body')

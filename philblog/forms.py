@@ -10,7 +10,7 @@ class EditorForm(FlaskForm):
     title = StringField('Title',validators=[data_required(),length(1,200)])
     category = SelectField('Category',coerce=int,default=1)
     body = CKEditorField('body')
-    show_window = FileField('Show Windows...',validators=[FileRequired()])
+    show_window = FileField('Show Windows...')
     submit = SubmitField()
     draft = SubmitField('Draft')
 
