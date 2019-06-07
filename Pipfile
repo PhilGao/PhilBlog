@@ -24,6 +24,7 @@ flask-wtf = "*"
 flask-ckeditor = "*"
 pymysql = "*"
 faker = "*"
+flask-login = "*"
 
 [requires]
 python_version = "3.6"

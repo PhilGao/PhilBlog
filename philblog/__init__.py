@@ -1,7 +1,8 @@
 from flask import Flask,render_template
 from philblog.blueprints.blog import blog_dp
 from philblog.blueprints.admin import admin_bp
-from philblog.extentions import db,csrf
+from philblog.blueprints.auth import auth_bp
+from philblog.extentions import db,csrf,login_manager
 from philblog.setting import config
 from philblog.models import Article, Comment
 import click
@@ -25,11 +26,14 @@ def create_app(config_name=None):
 def register_extentions(app):
     db.init_app(app)
     csrf.init_app(app)
+    login_manager.init_app(app)
+
 
 
 def register_blueprints(app):
     app.register_blueprint(blog_dp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(auth_bp)
 
 
 def register_error(app):

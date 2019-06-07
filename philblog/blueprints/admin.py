@@ -10,16 +10,6 @@ from flask_ckeditor import upload_success,upload_fail
 admin_bp = Blueprint('admin',__name__)
 
 
-@admin_bp.route('/login',methods=['GET','POST'])
-def login():
-    form = LoginForm()
-    if request.method == 'POST':
-        if form.login.data:
-            #TODO: do validation here.
-            return
-    return render_template('admin/login.html',form = form)
-
-
 @admin_bp.route('/post/manage',methods = ['GET','POST'])
 def post_manage():
     articles = db.session.query(Article.title,Article.id).all()

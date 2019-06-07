@@ -53,3 +53,21 @@ class Category(db.Model):
     category_name = db.Column(db.String(50))
 
     articles = db.relationship('Article', secondary=mapping_article_category, back_populates='categorys')
+
+class User(db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.String(100))
+    password = db.Column(db.String(100))
+
+    def is_active(self):
+        #This property should return True if this is an active user
+        return True
+    def is_authenticated(self):
+        #This property should return True if the user is authenticated,
+        return True
+    def is_anonymous(self):
+        #This property should return True if this is an anonymous user. (Actual users should return False instead.)
+        return False
+    def get_id(self):
+        return str(self.id)
