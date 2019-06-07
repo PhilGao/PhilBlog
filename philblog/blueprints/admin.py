@@ -6,17 +6,21 @@ import os
 from datetime import datetime
 from philblog.util import render_upload_file
 from flask_ckeditor import upload_success,upload_fail
+from flask_login import login_required
 
 admin_bp = Blueprint('admin',__name__)
 
 
 @admin_bp.route('/post/manage',methods = ['GET','POST'])
+@login_required
 def post_manage():
     articles = db.session.query(Article.title,Article.id).all()
     return render_template('admin/managepost.html',articles = articles)
 
 #todo : category should be the mutiple-checkbox.. remove the show window required
+
 @admin_bp.route('/post/<int:id>/edit',methods = ['GET','POST'])
+@login_required
 def post_edit(id):
     form = EditorForm()
     article = db.session.query(Article).filter(Article.id==id).first()
@@ -37,12 +41,17 @@ def post_edit(id):
                 db.session.commit()
                 flash('modify the article sucessfully %s' %article.title)
                 return redirect(url_for('admin.post_manage'))
+            if form.discard.data:
+                return redirect(url_for('admin.post_manage'))
     else:
         flash('No such article')
         abort(404)
     return render_template('admin/editpost.html',form=form)
 
+
+
 @admin_bp.route('/post/<int:id>/drop',methods = ['POST'])
+@login_required
 def post_drop(id):
     try:
         article = db.session.query(Article).filter(Article.id == id).first()
@@ -51,14 +60,15 @@ def post_drop(id):
         flash('drop the article %s successfully !' %article.title)
     except Exception as e:
         flash('drop the article %s with error %s ' %(article.title,e))
-    return redirect('/post/manage')
+    return redirect(url_for('admin.post_manage'))
 
-# todo : change the route name to new post may be better, save file logic should change to another way
+# todo : save file logic should change to another way , flash category mapping with message color, eg.. error->red,info-->grey
 @admin_bp.route('/post/new',methods=['GET','POST'])
+@login_required
 def post_new():
     form = EditorForm()
     if request.method == 'POST':
-        if form.draft.data :
+        if form.discard.data :
             title = request.form.get('title')
             message = 'drop the draft {}!'.format(title)
             flash(message)
@@ -82,14 +92,16 @@ def post_new():
         print(form.errors)
     return render_template('admin/newpost.html',form = form)
 
+
+
 @admin_bp.route('/upload/',methods = ['GET','POST'])
+@login_required
 def upload():
     f = request.files.get('upload')
     path = os.path.join(current_app.root_path,'upload',f.filename)
     f.save(path)
     url = url_for('admin.getimage',filename = f.filename)
     return upload_success(url,f.filename)
-
 
 @admin_bp.route('/getimage/<path:filename>',methods = ['GET'])
 def getimage(filename):

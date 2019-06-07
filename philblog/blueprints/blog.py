@@ -21,7 +21,7 @@ def index(page):
 
 @blog_dp.route('/tag', methods=['GET'])
 def tag():
-    # TODO : add cloud pic in here...
+    # TODO : add word cloud in here...
     categorys = Category.query.all()
     return render_template('tag.html', categorys=categorys)
 
@@ -31,7 +31,7 @@ def about():
     return render_template('about.html')
 
 
-# TODO : ISSUE IN HERE , the result is not corret  look like the in expression is not corrent .not sure the reason
+
 @blog_dp.route('/tagged/<int:category_id>', methods=['GET'])
 def tagged(category_id):
     articles = Article.query.join(Article.categorys).filter(Category.id.in_([category_id])).all()
@@ -41,7 +41,6 @@ def tagged(category_id):
 
 @blog_dp.route('/archive', methods=['GET'])
 def archive():
-    # TODO: check the ORM alias the column , now in template using the position which would be confusing in futher
     createdates = db.session.query(distinct(func.date_format(Article.createdate, '%Y-%m-%d'))).order_by(
         func.date_format(Article.createdate, '%Y-%m-%d').desc())
     articles = db.session.query(Article.title, func.date_format(Article.createdate, '%Y-%m-%d'), Article.id).all()

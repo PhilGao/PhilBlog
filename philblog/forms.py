@@ -11,8 +11,8 @@ class EditorForm(FlaskForm):
     category = SelectField('Category',coerce=int,default=1)
     body = CKEditorField('body')
     show_window = FileField('Show Windows...')
-    submit = SubmitField()
-    draft = SubmitField('Draft')
+    submit = SubmitField('Submit')
+    discard = SubmitField('Discard')
 
     def __init__(self,*args,**kwargs):
         super(EditorForm,self).__init__(*args,**kwargs)
