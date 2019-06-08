@@ -39,12 +39,12 @@ def post_edit(id):
                 article.content = body
                 article.categorys.append(category)
                 db.session.commit()
-                flash('modify the article sucessfully %s' %article.title)
+                flash('modify the article sucessfully %s' %article.title,'success')
                 return redirect(url_for('admin.post_manage'))
             if form.discard.data:
                 return redirect(url_for('admin.post_manage'))
     else:
-        flash('No such article')
+        flash('No such article','error')
         abort(404)
     return render_template('admin/editpost.html',form=form)
 
@@ -57,9 +57,9 @@ def post_drop(id):
         article = db.session.query(Article).filter(Article.id == id).first()
         db.session.delete(article)
         db.session.commit()
-        flash('drop the article %s successfully !' %article.title)
+        flash('drop the article %s successfully !' %article.title,'success')
     except Exception as e:
-        flash('drop the article %s with error %s ' %(article.title,e))
+        flash('drop the article %s with error %s ' %(article.title,e),'success')
     return redirect(url_for('admin.post_manage'))
 
 # todo : save file logic should change to another way , flash category mapping with message color, eg.. error->red,info-->grey
@@ -71,7 +71,7 @@ def post_new():
         if form.discard.data :
             title = request.form.get('title')
             message = 'drop the draft {}!'.format(title)
-            flash(message)
+            flash(message,'success')
             return redirect(url_for('admin.editor'))
         if form.submit.data and form.validate_on_submit():
             show_window_file = request.files.get('show_window')
@@ -87,7 +87,7 @@ def post_new():
             new_article.categorys.append(category)
             db.session.add(new_article)
             db.session.commit()
-            flash('The article {} has successfully submitted!'.format(title))
+            flash('The article {} has successfully submitted!'.format(title),'success')
             return redirect(url_for('admin.post_manage'))
         print(form.errors)
     return render_template('admin/newpost.html',form = form)

@@ -28,10 +28,10 @@ def login():
                 user = db.session.query(User).filter(User.username==username,User.password==password).first()
                 if user:
                     login_user(user)
-                    flash('Login Successfully !')
+                    flash('Login Successfully !','success')
                     return redirect(url_for('blog.index'))
                 else:
-                    flash('Login Failed! Please check the user name and password!')
+                    flash('Login Failed! Please check the user name and password!','error')
                     return redirect(url_for('auth.login'))
             except Exception as e :
                 abort(500)
@@ -42,5 +42,5 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash("logout!")
+    flash("logout!",'success')
     return redirect(url_for('blog.index'))
