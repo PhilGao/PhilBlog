@@ -60,8 +60,10 @@
                 Welcome! | {{current_user.username}}
             </button>
             <div class="dropdown-menu dropdown-menu-sm-right">
-                <a class="dropdown-item small"  href="{{url_for('admin.post_manage')}}">Manage Posts</a>
+                <a class="dropdown-item small"  href="{{url_for('admin.post_new')}}">new post</a>
                 <div class="dropdown-divider"></div>
+                <a class="dropdown-item small" href="{{url_for('admin.post_manage')}}">Manage Posts</a>
+                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item small" href="{{url_for('auth.logout')}}">Logout</a>
             </div>
         </div>
