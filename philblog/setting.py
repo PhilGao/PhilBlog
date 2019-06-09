@@ -12,11 +12,16 @@ class DevelopmentConfig(BaseConfig):
 class TestConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:root@123@localhost:3306/catpity"
     BLOG_POST_PER_PAGE = 5
+    SECRET_KEY = 'SFSDKJFSKJF'
+    CKEDITOR_FILE_UPLOADER = 'upload'
+
 
 
 class ProductionConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:root@123@localhost:3306/catpity"
     BLOG_POST_PER_PAGE = 5
+    SECRET_KEY = 'SFSDKJFSKJF'
+    CKEDITOR_FILE_UPLOADER = 'upload'
 
 
 config = {

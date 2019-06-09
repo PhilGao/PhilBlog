@@ -15,7 +15,7 @@
     {{static_file('css','css/catchpity.css')}}
     {%endblock styles%}
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <title>{% block title %}base{%endblock title%}</title>
+    <title>{% block title %}Phillll{%endblock title%}</title>
     {% endblock head%}
 </head>
 <body>
@@ -25,7 +25,7 @@
         <a class="navbar-brand" href="{{url_for('blog.index')}}">
             <img src="{{url_for('static',filename='favicon.svg')}}" width="30" height="30"
                  class="d-inline-block align-top" alt="">
-            CatchPity
+            Phillll
         </a>
         <div class="navbar-expand-lg">
             <ul class="navbar-nav">
@@ -67,7 +67,7 @@
         </div>
         {% else %}
         <span class="glyphicon glyphicon-user"></span>
-        <a href="{{url_for('auth.login')}} " class="text-dark text-capitalize" type="button">Sign In</a>
+        <a href="{{url_for('auth.login')}} " class="text-dark text-capitalize">Sign In</a>
         {% endif %}
     </div>
 </nav>

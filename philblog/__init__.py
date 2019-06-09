@@ -7,7 +7,6 @@ from philblog.setting import config
 from philblog.models import Article, Comment
 import click
 
-
 def create_app(config_name=None):
     # __name__ ---> module name,
     # so app would point to philblog package ,
