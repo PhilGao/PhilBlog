@@ -35,6 +35,7 @@ def post_edit(id):
                     show_window_path = render_upload_file(show_window_file.filename, 'show_window')
                     print(show_window_path)
                     show_window_file.save(show_window_path)
+                    article.showwindow = show_window_file.filename
                 title = request.form.get('title')
                 category_id = request.form.get('category')
                 body = request.form.get('body')
@@ -44,7 +45,6 @@ def post_edit(id):
                 article.title = title
                 article.content = body
                 article.categorys.append(category)
-                article.showwindow = show_window_file.filename
                 db.session.commit()
                 flash('modify the article sucessfully %s' % article.title, 'success')
                 return redirect(url_for('admin.post_manage'))
