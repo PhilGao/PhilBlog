@@ -18,7 +18,7 @@ def post_manage():
     return render_template('admin/managepost.html', articles=articles)
 
 
-# todo : category should be the mutiple-checkbox.. remove the show window required
+# todo : category should be the mutiple-checkbox..
 
 @admin_bp.route('/post/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -79,7 +79,7 @@ def post_new():
             title = request.form.get('title')
             message = 'drop the draft {}!'.format(title)
             flash(message, 'success')
-            return redirect(url_for('admin.editor'))
+            return redirect(url_for('admin.post_manage'))
         if form.submit.data and form.validate_on_submit():
             show_window_file = request.files.get('show_window')
             if show_window_file:

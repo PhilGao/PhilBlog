@@ -2,6 +2,7 @@ from faker import Faker
 from philblog.extentions import db
 from philblog.models import Article, Author, Comment, Visitor, Category, mapping_article_category
 import random
+from datetime import datetime
 
 fake = Faker()
 
@@ -38,18 +39,18 @@ def fake_category(count=8):
 def fake_article_category(count=50):
     categorys = db.session.query(Category).all()
     categorycount = db.session.query(Category).count()
-    for i in range(count):
+    for i in range(categorycount):
         article = Article(title=fake.sentence(),
                           content=fake.text(2000),
-                          createdate=fake.date_time_this_year(),
+                          createdate=datetime.now(),
                           # TODO: should be the random id from min id to maxid
                           showwindow = 'today.png',
                           author_id=random.randint(1, Author.query.count())
                           )
-        for j in range(random.randint(0, categorycount)):
+        for j in range(random.randint(0, 5)):
             article.categorys.append(categorys[j])
         db.session.add(article)
-    db.session.commit()
+        db.session.commit()
 
 
 def fake_comments(count=100):
@@ -60,7 +61,7 @@ def fake_comments(count=100):
             article_id=random.randint(1, article_count),
             visitor_id=random.randint(1, visitor_count),
             comments=fake.sentence(),
-            comment_date=fake.date_time_this_year()
+            comment_date=datetime.now()
         )
         db.session.add(comment)
     db.session.commit()

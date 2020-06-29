@@ -25,6 +25,7 @@ flask-ckeditor = "*"
 pymysql = "*"
 faker = "*"
 flask-login = "*"
+elasticsearch = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.8"

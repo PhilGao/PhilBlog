@@ -1,17 +1,19 @@
-from flask import Flask,render_template
+from flask import Flask, render_template
 from philblog.blueprints.blog import blog_dp
 from philblog.blueprints.admin import admin_bp
 from philblog.blueprints.auth import auth_bp
-from philblog.extentions import db,csrf,login_manager
+from philblog.extentions import db, csrf, login_manager
 from philblog.setting import config
 from philblog.models import Article, Comment
+from elasticsearch import Elasticsearch
 import click
+
 
 def create_app(config_name=None):
     # __name__ ---> module name,
     # so app would point to philblog package ,
     # and it would find the templates folder and render the template
-    app = Flask('philblog') #app = Flask(__name__) would be better
+    app = Flask('philblog')  # app = Flask(__name__) would be better
     if config_name is None:
         config_name = 'development'
     app.config.from_object(config[config_name])
@@ -19,6 +21,9 @@ def create_app(config_name=None):
     register_blueprints(app)
     register_command(app)
     register_error(app)
+
+    app.es = Elasticsearch(app.config['ELASTICSEARCH_URL'] if app.config['ELASTICSEARCH_URL'] else None)
+
     return app
 
 
@@ -26,7 +31,6 @@ def register_extentions(app):
     db.init_app(app)
     csrf.init_app(app)
     login_manager.init_app(app)
-
 
 
 def register_blueprints(app):
@@ -55,18 +59,26 @@ def register_command(app):
         return dict(db=db, article=Article, comment=Comment)
 
     @app.cli.command()
-    def init_db():
+    def db_init():
+        """initialize the database """
         click.echo('...initial the database')
         db.drop_all()
         db.create_all()
 
     @app.cli.command()
-    def init_fakedata():
+    def db_fakedata():
+        """Create fake data for all table in DB"""
         from philblog.fake import fake_author, fake_visitor, fake_category, fake_article_category, fake_comments
         fake_author()
         fake_visitor()
         fake_category()
         fake_article_category()
         fake_comments()
+
+    @app.cli.command()
+    def es_reindex():
+        """reindex the ES"""
+        Article.reindex()
+        click.echo('...reindex the ES finished ')
 
     return app

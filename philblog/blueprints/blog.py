@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, Blueprint, url_for, request, current_app,send_from_directory
+from flask import Flask, render_template, redirect, Blueprint, url_for, request, current_app, send_from_directory,flash
 from philblog.extentions import db
 import os
 from philblog.models import Article, Category
@@ -29,7 +29,6 @@ def tag():
 @blog_dp.route('/about', methods=['GET'])
 def about():
     return render_template('about.html')
-
 
 
 @blog_dp.route('/tagged/<int:category_id>', methods=['GET'])
