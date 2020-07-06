@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from philblog.blueprints.blog import blog_dp
 from philblog.blueprints.admin import admin_bp
 from philblog.blueprints.auth import auth_bp
+from philblog.blueprints.search import search_dp
 from philblog.extentions import db, csrf, login_manager
 from philblog.setting import config
 from philblog.models import Article, Comment
@@ -37,6 +38,7 @@ def register_blueprints(app):
     app.register_blueprint(blog_dp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(search_dp)
 
 
 def register_error(app):

@@ -26,6 +26,7 @@ pymysql = "*"
 faker = "*"
 flask-login = "*"
 elasticsearch = "*"
+cryptography = "*"
 
 [requires]
 python_version = "3.8"

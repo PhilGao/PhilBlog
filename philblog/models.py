@@ -9,7 +9,7 @@ class SearchableMixin(object):
 
     @classmethod
     def search(cls, expression, page, per_page):
-        ids, total = query_index(cls, expression, page, per_page)
+        ids, total = query_index(cls,cls.__tablename__, expression, page, per_page)
         return cls.query.filter(cls.id.in_(ids)), total
 
     @classmethod
@@ -35,6 +35,7 @@ class SearchableMixin(object):
     @classmethod
     def reindex(cls):
         for obj in cls.query:
+            # better not add all field in ES , only add the search one, get the id -> HBase to get whole value
             add_to_index(obj.__tablename__, obj)
 
 
