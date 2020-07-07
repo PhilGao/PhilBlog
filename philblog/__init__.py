@@ -48,11 +48,11 @@ def register_error(app):
 
     @app.errorhandler(400)
     def error_400(error):
-        return render_template('/errors/400.html'), 404
+        return render_template('/errors/400.html'), 400
 
     @app.errorhandler(500)
     def error_500(error):
-        return render_template('/errors/500.html'), 404
+        return render_template('/errors/500.html'), 500
 
 
 def register_command(app):

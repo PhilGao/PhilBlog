@@ -5,12 +5,11 @@ search_dp = Blueprint('search', __name__)
 
 
 #todo: we should use get or post ?? should use get i think , but the get would have the json body???
-@search_dp.route('/_search', methods=['GET','POST'])
+#should use get method.. get usually not have the body , would put it on parameters
+@search_dp.route('/_search', methods=['GET'])
 def search():
-    if request.method == 'POST':
-        return redirect(url_for('about.html'))
     try:
-        request_body = request.json
+        request_body = request.args
         results, number = Article.search(request_body['search'], 1, 5)
         return {"number": number, "results": [{"title": item.title, "content": item.content} for item in results]}
     except KeyError or TypeError:

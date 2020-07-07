@@ -8,6 +8,7 @@ class DevelopmentConfig(BaseConfig):
     BLOG_POST_PER_PAGE = 5
     SECRET_KEY = 'SFSDKJFSKJF'
     CKEDITOR_FILE_UPLOADER = 'upload'
+    #WTF_CSRF_ENABLED = False
 
 
 class TestConfig(BaseConfig):

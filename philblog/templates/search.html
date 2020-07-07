@@ -4,21 +4,20 @@
     <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
     <script type="text/javascript">
         function search() {
+            var content = document.getElementById("searchinput").value
             var request = new XMLHttpRequest();
+<!--            request.responseType = "json";-->
             request.onreadystatechange = function () {
                 if (request.readyState == 4) {
                     if (request.status == 200) {
-                        var jsonObj = Json.parse(request.responseText);
+                        var jsonObj = JSON.parse(request.responseText);
                         console.log(jsonObj)
                     } else {
                         alert("failed");
                     }
-                } else {
-                    alert("still running");
-
                 }
             };
-            request.open('GET', "http://127.0.0.1:5000/_search",true);
+            request.open('GET', "http://127.0.0.1:5000/_search?search="+content,true);
             request.send();
         }
 
@@ -31,7 +30,7 @@
 <body>
     <input type="text" class="form-control" placeholder="Search for..." id='searchinput'>
     <span class="input-group-btn">
-        <button class="btn btn-default" type="button" onclick="search()" id="searchbtn">Go!</button>
+        <button class="btn btn-default" type="button"  onclick="search()" id="searchbtn">Go!</button>
     </span>
 </body>
 </html>
